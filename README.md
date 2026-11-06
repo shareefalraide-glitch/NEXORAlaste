@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 <div dir="rtl" lang="ar">
 
 # 📘 NEXORA — مستودع الواجهة وخدمات المنصة
@@ -167,3 +168,6 @@ git commit -m 'Initial NEXORA platform foundation'
 راجع البطاقات أولًا في `planning/issues/`. يعرض `sh scripts/prepare-github-issues.sh` خطة محلية فقط افتراضيًا؛ تشرح [خطة الفريق](planning/TEAM_PLAN.md) طريقة إنشائها اختياريًا بعد رفع المستودع. لا تُنشأ المدد أو أسماء الأعضاء أو الصلاحيات الفعلية تلقائيًا.
 
 </div>
+=======
+# NEXORAlaste
+>>>>>>> 625eb38c87f5e1a48b1d3aa54a58b86fb51698d1
