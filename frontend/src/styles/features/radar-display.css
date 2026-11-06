@@ -1,0 +1,226 @@
+/* A standalone radar circle: decorative only, with no instrument panel or readout. */
+.overview-hero {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 20px;
+  align-items: center;
+}
+.overview-hero .hero-copy {
+  min-width: 0;
+  max-width: none;
+}
+.hero-visual {
+  position: relative;
+  inset: auto;
+  opacity: 1;
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1;
+}
+.radar-display {
+  --rd-surface: #071922;
+  --rd-surface-inner: #09252d;
+  --rd-grid: rgba(74, 220, 232, 0.22);
+  --rd-grid-strong: rgba(74, 220, 232, 0.34);
+  --rd-beam: 67, 235, 239;
+  --rd-cyan: #6ff8f5;
+  --rd-blue: #8cbcff;
+  --rd-amber: #ffca75;
+  --rd-muted: #779ba7;
+  width: 190px;
+  max-width: 100%;
+  aspect-ratio: 1;
+  position: relative;
+  flex: none;
+}
+.radar-scope {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  overflow: hidden;
+  border-radius: 50%;
+  background: radial-gradient(circle at center, var(--rd-surface-inner), var(--rd-surface) 74%);
+  box-shadow:
+    inset 0 0 22px rgba(0, 0, 0, 0.15),
+    0 0 18px rgba(var(--rd-beam), 0.09);
+}
+.radar-ring {
+  position: absolute;
+  border: 1px solid var(--rd-grid);
+  border-radius: 50%;
+  inset: 0;
+}
+.radar-ring-outer {
+  border-color: var(--rd-grid-strong);
+}
+.radar-ring-middle {
+  inset: 16.67%;
+}
+.radar-ring-inner {
+  inset: 33.33%;
+}
+.radar-axis {
+  position: absolute;
+  background: var(--rd-grid);
+  z-index: 1;
+}
+.radar-axis-h {
+  left: 0;
+  right: 0;
+  top: 50%;
+  height: 1px;
+}
+.radar-axis-v {
+  top: 0;
+  bottom: 0;
+  left: 50%;
+  width: 1px;
+}
+.radar-sweep {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  z-index: 2;
+  background: conic-gradient(
+    from 0deg,
+    transparent 0deg 285deg,
+    rgba(var(--rd-beam), 0.035) 310deg,
+    rgba(var(--rd-beam), 0.28) 355deg,
+    rgba(var(--rd-beam), 0.42) 360deg
+  );
+  will-change: transform;
+  transform-origin: 50% 50%;
+}
+.radar-sweep::after {
+  content: '';
+  position: absolute;
+  left: 50%;
+  top: 0;
+  width: 1.5px;
+  height: 50%;
+  background: linear-gradient(to top, rgba(var(--rd-beam), 0.36), rgba(var(--rd-beam), 0.95));
+  box-shadow: 0 0 7px rgba(var(--rd-beam), 0.7);
+}
+.radar-crosshair {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  background: var(--rd-cyan);
+  box-shadow: 0 0 8px var(--rd-cyan);
+  z-index: 4;
+}
+.radar-mark {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  font:
+    700 6px/1 Arial,
+    sans-serif;
+  color: var(--rd-muted);
+  z-index: 4;
+}
+.radar-mark-top {
+  top: 5px;
+}
+.radar-mark-bottom {
+  bottom: 5px;
+}
+.radar-signal {
+  --signal: var(--rd-cyan);
+  position: absolute;
+  left: var(--x);
+  top: var(--y);
+  width: 6px;
+  height: 6px;
+  transform: translate(-50%, -50%);
+  z-index: 5;
+}
+.radar-signal.blue {
+  --signal: var(--rd-blue);
+}
+.radar-signal.amber {
+  --signal: var(--rd-amber);
+}
+.radar-signal-core,
+.radar-signal-pulse {
+  position: absolute;
+  border-radius: 50%;
+  display: block;
+}
+.radar-signal-core {
+  inset: 0;
+  background: var(--signal);
+  box-shadow:
+    0 0 7px var(--signal),
+    0 0 13px var(--signal);
+}
+.radar-signal-pulse {
+  width: 16px;
+  height: 16px;
+  left: -5px;
+  top: -5px;
+  border: 1px solid var(--signal);
+  opacity: 0.7;
+  box-shadow: 0 0 6px var(--signal);
+  will-change: transform, opacity;
+  transform-origin: center;
+}
+html[data-theme='light'] .radar-display {
+  --rd-surface: #eaf8fb;
+  --rd-surface-inner: #d4f2f6;
+  --rd-grid: rgba(0, 105, 126, 0.21);
+  --rd-grid-strong: rgba(0, 105, 126, 0.38);
+  --rd-beam: 0, 127, 150;
+  --rd-cyan: #087c90;
+  --rd-blue: #205fa5;
+  --rd-amber: #ab5a0b;
+  --rd-muted: #397483;
+}
+html[data-theme='light'] .radar-scope {
+  box-shadow:
+    inset 0 0 18px rgba(7, 94, 111, 0.12),
+    0 0 18px rgba(var(--rd-beam), 0.08);
+}
+@media (max-width: 1100px) {
+  .radar-display {
+    width: 170px;
+  }
+}
+@media (min-width: 761px) and (max-width: 880px) {
+  .overview-hero {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 14px;
+  }
+  .hero-visual {
+    justify-self: center;
+  }
+}
+@media (max-width: 600px) {
+  .overview-hero {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 14px;
+  }
+  .overview-hero .hero-copy {
+    max-width: none;
+  }
+  .hero-visual {
+    width: 100%;
+    height: auto;
+  }
+  .radar-display {
+    width: min(188px, 100%);
+  }
+  .hero-copy p,
+  .hero-meta {
+    max-width: none;
+  }
+  .hero-journey-link {
+    min-height: 40px;
+  }
+}

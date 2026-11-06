@@ -1,0 +1,9 @@
+node_modules/
+dist/
+demo/
+coverage/
+playwright-report/
+test-results/
+public/
+THIRD_PARTY_LICENSES.txt
+package-lock.json

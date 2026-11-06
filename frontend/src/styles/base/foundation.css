@@ -1,0 +1,105 @@
+:root {
+  font-family: 'IBM Plex Sans Arabic', system-ui, sans-serif;
+  color: var(--nx-tx1);
+  background: var(--nx-bg0);
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  --bg: var(--nx-bg0);
+  --sidebar: var(--nx-bg1);
+  --panel: var(--nx-bg2);
+  --panel-deep: var(--nx-bg1);
+  --border: var(--nx-line);
+  --muted: var(--nx-tx2);
+  --blue: var(--nx-blue);
+  --cyan: var(--nx-brand);
+  --purple: var(--nx-purple);
+  --green: var(--nx-green);
+  --orange: var(--nx-orange);
+  --red: var(--nx-red);
+  --sidebar-w: 239px;
+}
+* {
+  box-sizing: border-box;
+}
+html {
+  min-width: 320px;
+  scroll-behavior: smooth;
+}
+body {
+  margin: 0;
+  min-width: 320px;
+}
+button,
+input,
+select,
+textarea {
+  font: inherit;
+}
+button {
+  cursor: pointer;
+}
+button:disabled {
+  cursor: not-allowed;
+  opacity: 0.53;
+}
+button:focus-visible,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible,
+[tabindex]:focus-visible {
+  outline: 2px solid var(--nx-brand);
+  outline-offset: 3px;
+}
+button {
+  border: 0;
+}
+p,
+h1,
+h2,
+h3,
+h4 {
+  margin: 0;
+}
+svg {
+  flex: none;
+}
+a {
+  color: inherit;
+}
+.ltr {
+  display: inline-block;
+  unicode-bidi: isolate;
+  text-align: left;
+}
+.mono {
+  font-family: 'IBM Plex Sans Arabic', monospace;
+  letter-spacing: 0.1px;
+  white-space: nowrap;
+  font-size: 12px;
+}
+.strong {
+  font-weight: 600;
+}
+.nowrap {
+  white-space: nowrap;
+}
+.cell-muted {
+  color: var(--nx-tx2);
+}
+.red-text {
+  color: var(--nx-red-ink) !important;
+}
+.amber-text {
+  color: var(--nx-orange-ink) !important;
+}
+.app-shell {
+  min-height: 100vh;
+  background:
+    radial-gradient(
+      ellipse 65% 35% at 65% 0%,
+      rgba(var(--nx-tint-blue-rgb), 0.12),
+      transparent 75%
+    ),
+    var(--nx-bg0);
+}

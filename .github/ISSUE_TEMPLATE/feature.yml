@@ -1,0 +1,28 @@
+name: تنفيذ قدرة أو API
+description: مهمة مرتبطة بمتطلب وعقد وقبول قابل للاختبار
+title: '[Feature] '
+body:
+  - type: input
+    id: reference
+    attributes:
+      label: المتطلب والمسار
+      description: رقم FR/SR/NFR ومسار API أو رابط العقد
+    validations:
+      required: true
+  - type: textarea
+    id: outcome
+    attributes:
+      label: الهدف والنطاق والحدود
+    validations:
+      required: true
+  - type: textarea
+    id: criteria
+    attributes:
+      label: معايير القبول والاختبارات
+      description: أدرج الحالات السلبية والعزل والصلاحيات والتدقيق إن انطبقت.
+    validations:
+      required: true
+  - type: textarea
+    id: dependencies
+    attributes:
+      label: الاعتماديات والمخاطر

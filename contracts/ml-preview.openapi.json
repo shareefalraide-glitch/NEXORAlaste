@@ -1,0 +1,329 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "NEXORA L3 non-operational preview",
+    "version": "0.1.0",
+    "description": "Mathematical risk preview only. There is no trained model, calibrated threshold, rule matching or live detection. Go L4 is not connected to this service."
+  },
+  "servers": [
+    {
+      "url": "/"
+    }
+  ],
+  "paths": {
+    "/health/live": {
+      "get": {
+        "operationId": "mlLive",
+        "x-implementation-status": "implemented-preview",
+        "responses": {
+          "200": {
+            "description": "Live",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "const": "live"
+                    }
+                  },
+                  "required": [
+                    "status"
+                  ],
+                  "additionalProperties": false
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/health/ready": {
+      "get": {
+        "operationId": "mlReady",
+        "x-implementation-status": "implemented-preview",
+        "responses": {
+          "200": {
+            "description": "Preview ready with configured token, not a trained model",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "const": "ready"
+                    },
+                    "model_status": {
+                      "const": "not_implemented"
+                    },
+                    "mode": {
+                      "const": "preview_only"
+                    }
+                  },
+                  "required": [
+                    "status",
+                    "model_status",
+                    "mode"
+                  ],
+                  "additionalProperties": false
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Rejected request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "detail": {}
+                  },
+                  "required": [
+                    "detail"
+                  ]
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/internal/v1/risk-preview": {
+      "post": {
+        "operationId": "previewRiskFusion",
+        "x-implementation-status": "implemented-preview",
+        "security": [
+          {
+            "serviceToken": []
+          }
+        ],
+        "description": "Uses proposed uncalibrated weights. Caller-supplied scores/baseline are unverified. Output is explicitly operational=false.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RiskRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Arithmetic preview",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RiskResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Rejected request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "detail": {}
+                  },
+                  "required": [
+                    "detail"
+                  ]
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Rejected request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "detail": {}
+                  },
+                  "required": [
+                    "detail"
+                  ]
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Rejected request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "detail": {}
+                  },
+                  "required": [
+                    "detail"
+                  ]
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Rejected request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "detail": {}
+                  },
+                  "required": [
+                    "detail"
+                  ]
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "securitySchemes": {
+      "serviceToken": {
+        "type": "http",
+        "scheme": "bearer"
+      }
+    },
+    "schemas": {
+      "Baseline": {
+        "type": "object",
+        "properties": {
+          "started_at": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "normalized_event_count": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 10000000000
+          }
+        },
+        "required": [
+          "started_at",
+          "normalized_event_count"
+        ],
+        "additionalProperties": false
+      },
+      "RiskRequest": {
+        "type": "object",
+        "properties": {
+          "rule_score": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 1
+          },
+          "anomaly_score": {
+            "anyOf": [
+              {
+                "type": "number",
+                "minimum": 0,
+                "maximum": 1
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "asset_criticality": {
+            "enum": [
+              "low",
+              "medium",
+              "critical"
+            ]
+          },
+          "frequency_score": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 1
+          },
+          "baseline": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/Baseline"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          }
+        },
+        "required": [
+          "rule_score",
+          "asset_criticality",
+          "frequency_score"
+        ],
+        "additionalProperties": false
+      },
+      "RiskResponse": {
+        "type": "object",
+        "properties": {
+          "risk_score": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 1
+          },
+          "severity": {
+            "enum": [
+              "low",
+              "medium",
+              "high",
+              "critical"
+            ]
+          },
+          "components": {
+            "type": "object",
+            "additionalProperties": {
+              "anyOf": [
+                {
+                  "type": "number",
+                  "minimum": 0,
+                  "maximum": 1
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            }
+          },
+          "baseline_ready": {
+            "type": "boolean"
+          },
+          "operational": {
+            "const": false
+          },
+          "model_status": {
+            "const": "not_implemented"
+          },
+          "calibration_status": {
+            "const": "not_calibrated"
+          },
+          "warning": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "risk_score",
+          "severity",
+          "components",
+          "baseline_ready",
+          "operational",
+          "model_status",
+          "calibration_status",
+          "warning"
+        ],
+        "additionalProperties": false
+      }
+    }
+  }
+}

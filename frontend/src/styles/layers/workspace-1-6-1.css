@@ -1,0 +1,112 @@
+/* 1.6.1: explain existing state and provenance without adding a new page. */
+.split-sharing {
+  display: flex;
+  align-items: flex-start;
+  gap: 7px 16px;
+  flex-wrap: wrap;
+  padding: 7px 10px;
+  border: 1px solid var(--nx-line2);
+  border-radius: 8px;
+  background: var(--nx-bg1);
+}
+.split-sharing span {
+  display: flex;
+  align-items: baseline;
+  gap: 5px;
+  min-width: 0;
+  color: var(--nx-tx2);
+  font-size: 12px;
+  line-height: 1.6;
+}
+.split-sharing strong {
+  flex: none;
+  color: var(--nx-brand-ink);
+  font-size: 11.5px;
+}
+.split-shared-record {
+  display: flex;
+  align-items: flex-start;
+  gap: 7px;
+  margin: 0;
+  padding: 7px 10px;
+  border: 1px solid var(--nx-border-cyan);
+  border-radius: 8px;
+  background: var(--nx-tint-cyan);
+  color: var(--nx-tx1);
+  font-size: 12px;
+  line-height: 1.65;
+}
+.split-shared-record svg {
+  flex: none;
+  margin-top: 2px;
+  color: var(--nx-brand-ink);
+}
+.split-shared-record bdi {
+  font-weight: 700;
+}
+.notebook-export-manifest {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 6px;
+  margin: 10px 0 0;
+}
+.notebook-export-manifest > div {
+  display: grid;
+  gap: 2px;
+  min-width: 0;
+  padding: 8px;
+  border: 1px solid var(--nx-line2);
+  border-radius: 7px;
+  background: var(--nx-bg2);
+  font-size: 11px;
+  line-height: 1.5;
+}
+.notebook-export-manifest span {
+  color: var(--nx-tx2);
+}
+.notebook-export-manifest strong {
+  color: var(--nx-tx1);
+  overflow-wrap: anywhere;
+}
+.notebook-preview-help {
+  margin: 0 0 8px;
+}
+/* The preview and printed sheet are white in both themes. Do not inherit the
+   dark-theme light text color for headings created by the note formatter. */
+.notebook-export-document .notebook-formatted .notebook-line-heading {
+  color: #17202d;
+}
+.notebook-export-document header bdi {
+  display: inline-block;
+  max-width: 100%;
+  overflow-wrap: anywhere;
+}
+.network-context li small.network-match-reason {
+  color: var(--nx-tx1);
+  font-size: 11px;
+  line-height: 1.65;
+}
+.network-match-reason b {
+  color: var(--nx-brand-ink);
+}
+.graph-edge-sources > span strong {
+  color: var(--nx-tx1);
+}
+@media (max-width: 700px) {
+  .notebook-export-manifest {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+@media (max-width: 480px) {
+  .split-sharing {
+    gap: 3px;
+    padding: 6px 8px;
+  }
+  .split-sharing span {
+    font-size: 11px;
+  }
+  .split-shared-record {
+    padding: 6px 8px;
+    font-size: 11px;
+  }
+}

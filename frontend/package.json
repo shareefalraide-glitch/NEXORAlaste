@@ -1,0 +1,62 @@
+{
+  "name": "nexora-ui",
+  "version": "1.6.1",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "vite --host 0.0.0.0",
+    "build": "vite build && node scripts/embed-licenses.mjs",
+    "preview": "vite preview --host 0.0.0.0",
+    "test:a11y": "node tests/accessibility/accessibility.mjs",
+    "test:ui": "node tests/ui/flows.mjs",
+    "test": "npm run test:structure && npm run test:unit && npm run lint && npm run format:check && npm run build && npm run test:theme && npm run test:layout && npm run test:network && npm run test:radar-display && npm run test:notifications && npm run test:guide && npm run test:motion && npm run test:a11y && npm run test:axe && npm run test:ui && npm run test:enhancements && npm run test:mac && npm run test:assets && npm run test:browsers && npm run test:integrated && npm run test:final && npm run test:professional && npm run test:analyst && npm run test:workspace && npm run test:workspace16 && npm run test:workspace161",
+    "test:axe": "node tests/accessibility/axe.mjs",
+    "test:enhancements": "node tests/ui/enhancements.mjs",
+    "test:browsers": "node tests/compatibility/browsers.mjs",
+    "test:orca": "sh scripts/test-orca.sh",
+    "test:mac": "node tests/features/mac.mjs",
+    "test:assets": "node tests/features/assets.mjs",
+    "test:theme": "node tests/ui/theme-globe.mjs",
+    "test:motion": "node tests/ui/motion-reliability.mjs",
+    "test:notifications": "node tests/ui/notifications.mjs",
+    "test:guide": "node tests/ui/guide.mjs",
+    "test:layout": "node tests/ui/layout.mjs",
+    "test:network": "node tests/features/network.mjs",
+    "test:integrated": "node tests/scenarios/integrated/integrated-experience.mjs && node tests/scenarios/integrated/integrated-behavior.mjs && node tests/scenarios/integrated/integrated-sandbox.mjs && node tests/scenarios/integrated/integrated-a11y.mjs",
+    "test:final": "node tests/scenarios/final/final-experience.mjs && node tests/scenarios/final/final-a11y.mjs",
+    "test:radar-display": "node tests/ui/radar-display.mjs",
+    "test:professional": "node tests/scenarios/professional/professional-soc.mjs && node tests/scenarios/professional/professional-a11y.mjs",
+    "test:analyst": "node tests/scenarios/analyst/analyst-experience.mjs && node tests/scenarios/analyst/analyst-a11y.mjs",
+    "test:workspace": "node tests/unit/workspace-model.mjs && node tests/workspace/workspace-1-5.mjs && node tests/workspace/workspace-edge-cases.mjs && node tests/workspace/workspace-1-5-a11y.mjs && node tests/workspace/guide-draft-restore.mjs",
+    "test:workspace16": "node tests/unit/workspace-1-6-model.mjs && node tests/workspace/workspace-1-6.mjs && node tests/workspace/workspace-1-6-isolation.mjs && node tests/workspace/workspace-1-6-sandbox.mjs && node tests/workspace/workspace-1-6-a11y.mjs && node tests/workspace/workspace-1-6-print.mjs",
+    "test:workspace161": "node tests/unit/workspace-1-6-1-model.mjs && node tests/workspace/workspace-1-6-1.mjs && node tests/workspace/workspace-1-6-1-dialog.mjs",
+    "test:structure": "node scripts/check-structure.mjs",
+    "lint": "eslint src tests scripts vite.config.js eslint.config.js",
+    "format": "prettier --write \"src/**/*.{js,jsx,css}\" \"tests/**/*.mjs\" \"scripts/**/*.mjs\" \"*.config.js\" index.html package.json",
+    "format:check": "prettier --check \"src/**/*.{js,jsx,css}\" \"tests/**/*.mjs\" \"scripts/**/*.mjs\" \"*.config.js\" index.html package.json",
+    "test:unit": "node tests/unit/dialog-model.mjs && node tests/unit/workspace-model.mjs && node tests/unit/workspace-1-6-model.mjs && node tests/unit/workspace-1-6-1-model.mjs && node tests/unit/api-client.mjs && node tests/unit/api-proxy.mjs"
+  },
+  "dependencies": {
+    "@fontsource/ibm-plex-sans-arabic": "^5.2.8",
+    "lucide-react": "^0.468.0",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1"
+  },
+  "devDependencies": {
+    "@axe-core/playwright": "4.13.0",
+    "@babel/parser": "^7.29.12",
+    "eslint": "^10.14.0",
+    "eslint-plugin-react-hooks": "^7.1.1",
+    "globals": "^17.14.0",
+    "playwright": "1.64.1",
+    "prettier": "^3.9.10",
+    "vite": "^6.1.0",
+    "vite-plugin-singlefile": "^2.2.0"
+  },
+  "engines": {
+    "node": "^20.19.0 || ^22.13.0 || >=24.0.0"
+  },
+  "overrides": {
+    "minimatch": "^11.0.4"
+  }
+}

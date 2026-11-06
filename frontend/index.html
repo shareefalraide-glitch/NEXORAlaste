@@ -1,0 +1,26 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#07090d" />
+    <meta
+      name="description"
+      content="نموذج واجهات NEXORA لمراقبة الشبكات وإدارة الحوادث السيبرانية"
+    />
+    <script>
+      try {
+        document.documentElement.dataset.theme =
+          localStorage.getItem('nexora-ui-theme') === 'light' ? 'light' : 'dark';
+      } catch (e) {
+        document.documentElement.dataset.theme = 'dark';
+      }
+    </script>
+    <title>NEXORA | مركز العمليات الأمنية</title>
+    <link rel="icon" type="image/png" href="/src/assets/nexora-icon.png" />
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.jsx"></script>
+  </body>
+</html>

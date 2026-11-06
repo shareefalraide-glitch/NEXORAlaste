@@ -1,0 +1,329 @@
+/* administration */
+.reports-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 12px;
+}
+.reports-header h2 {
+  font-size: 14px;
+}
+.reports-header p {
+  font-size: 10px;
+  color: var(--nx-tx2);
+  margin-top: 4px;
+}
+.report-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 12px;
+}
+.report-card {
+  padding: 16px;
+}
+.report-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+.report-card h3 {
+  font-size: 12px;
+  margin-top: 13px;
+}
+.report-card > p {
+  font-size: 10px;
+  color: var(--nx-tx2);
+  line-height: 1.8;
+  min-height: 54px;
+  margin-top: 5px;
+}
+.report-meta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 7px;
+  border-top: 1px solid var(--nx-line2);
+  padding-top: 11px;
+  font-size: 9px;
+  color: var(--nx-tx2);
+}
+.report-meta span {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+.report-actions {
+  display: flex;
+  gap: 6px;
+  margin-top: 13px;
+}
+.report-actions .btn {
+  flex: 1;
+}
+.report-actions .icon-button {
+  border: 1px solid var(--nx-line2);
+}
+.report-history {
+  margin-top: 14px;
+}
+.report-history-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 0 19px 18px;
+}
+.file-box {
+  width: 38px;
+  height: 38px;
+  display: grid;
+  place-items: center;
+  background: var(--nx-tint-blue);
+  color: var(--nx-blue-ink);
+  border-radius: 7px;
+}
+.report-history-row > div {
+  flex: 1;
+}
+.report-history-row strong {
+  font-size: 10px;
+}
+.report-history-row p {
+  font-size: 9px;
+  color: var(--nx-tx2);
+  margin-top: 3px;
+}
+.audit-banner {
+  background: var(--nx-bg2);
+  border-color: var(--nx-line2);
+}
+.audit-lock {
+  background: var(--nx-tint-cyan);
+  color: var(--nx-brand-ink);
+}
+.user-cell > div {
+  display: grid;
+  gap: 3px;
+}
+.user-cell strong {
+  font-size: 10px;
+}
+.user-cell small {
+  font-size: 9px;
+  color: var(--nx-tx2);
+  text-align: right;
+}
+.permission-note {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 15px;
+  margin-bottom: 16px;
+  background: var(--nx-tint-blue);
+  border: 1px solid var(--nx-border-blue);
+  border-radius: 7px;
+  color: var(--nx-tx1);
+  font-size: 10px;
+}
+.tabs {
+  display: flex;
+  align-items: center;
+  gap: 22px;
+  border-bottom: 1px solid var(--nx-line2);
+}
+.tabs button {
+  padding: 11px 0;
+  border-bottom: 2px solid transparent;
+  margin-bottom: -1px;
+  background: transparent;
+  color: var(--nx-tx2);
+  font-size: 10px;
+  font-weight: 600;
+  white-space: nowrap;
+}
+.tabs button.active {
+  color: var(--nx-blue-ink);
+  border-bottom-color: var(--nx-blue);
+}
+.tabs button span {
+  background: var(--nx-tint-blue);
+  color: var(--nx-tx1);
+  padding: 1px 5px;
+  border-radius: 4px;
+  margin-right: 3px;
+  font-size: 9px;
+}
+.page-tabs {
+  margin-bottom: 15px;
+}
+.roles-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+}
+.role-card {
+  padding: 17px;
+}
+.role-card h2 {
+  font-size: 12px;
+  margin-top: 12px;
+}
+.role-card p {
+  font-size: 10px;
+  color: var(--nx-tx2);
+  min-height: 40px;
+  margin-top: 5px;
+}
+.role-count {
+  font-size: 9px;
+  color: var(--nx-tx2);
+  border-top: 1px solid var(--nx-line2);
+  padding-top: 10px;
+}
+.settings-layout {
+  display: grid;
+  grid-template-columns: 230px 1fr;
+  gap: 13px;
+  align-items: start;
+}
+.settings-nav {
+  padding: 8px;
+}
+.settings-nav button {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  text-align: right;
+  padding: 10px 9px;
+  color: var(--nx-tx2);
+  background: transparent;
+  border-radius: 6px;
+}
+.settings-nav button.active {
+  background: var(--nx-tint-blue);
+  color: var(--nx-blue-ink);
+}
+.settings-nav button > span {
+  display: grid;
+  flex: 1;
+  gap: 2px;
+}
+.settings-nav strong {
+  font-size: 10px;
+  color: inherit;
+}
+.settings-nav small {
+  font-size: 9px;
+  color: var(--nx-tx2);
+}
+.settings-content > .panel {
+  padding-bottom: 20px;
+}
+.settings-content .form-grid,
+.settings-content .info-box,
+.settings-content .form-section-title,
+.settings-content .weight-total,
+.settings-content .setting-toggle {
+  margin-left: 19px;
+  margin-right: 19px;
+}
+.form-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 13px;
+}
+.four-fields {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+.form-field {
+  display: grid;
+  gap: 6px;
+  min-width: 0;
+  margin-bottom: 14px;
+}
+.form-field > span {
+  font-size: 10px;
+  font-weight: 600;
+  color: var(--nx-tx1);
+}
+.form-field em {
+  font-style: normal;
+  color: var(--nx-red-ink);
+}
+.form-field small {
+  color: var(--nx-tx2);
+  font-size: 9px;
+  line-height: 1.6;
+}
+.form-control {
+  height: 36px;
+  width: 100%;
+  min-width: 0;
+  border: 1px solid var(--nx-border-blue);
+  background: var(--nx-bg2);
+  color: var(--nx-tx1);
+  border-radius: 6px;
+  padding: 0 10px;
+  font-size: 10px;
+  outline: none;
+}
+.form-control:focus {
+  border-color: var(--nx-blue);
+}
+.form-control:read-only {
+  color: var(--nx-tx2);
+  background: var(--nx-bg2);
+}
+.form-control::placeholder {
+  color: var(--nx-tx3-ink);
+}
+textarea.form-control {
+  height: auto;
+  min-height: 78px;
+  resize: vertical;
+  padding: 10px;
+  line-height: 1.7;
+}
+.form-section-title {
+  font-size: 11px;
+  margin-top: 9px;
+  margin-bottom: 12px;
+}
+.weight-total {
+  display: flex;
+  justify-content: space-between;
+  border: 1px solid var(--nx-line2);
+  background: var(--nx-bg2);
+  color: var(--nx-brand-ink);
+  padding: 10px 12px;
+  border-radius: 6px;
+  font-size: 10px;
+  margin-bottom: 15px;
+}
+.weight-total.invalid {
+  border-color: var(--nx-border-red);
+  background: var(--nx-bg3);
+  color: var(--nx-red-ink);
+}
+.setting-toggle {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 15px;
+  padding: 14px 0;
+  border-bottom: 1px solid var(--nx-line2);
+}
+.setting-toggle > span {
+  display: grid;
+  gap: 4px;
+}
+.setting-toggle strong {
+  font-size: 10px;
+}
+.setting-toggle small {
+  font-size: 9px;
+  color: var(--nx-tx2);
+}
+.setting-toggle + .info-box {
+  margin-top: 16px;
+}

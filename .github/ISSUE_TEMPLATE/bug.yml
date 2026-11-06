@@ -1,0 +1,25 @@
+name: بلاغ خلل
+description: خطأ قابل للتكرار مع أثره وحدوده
+title: '[Bug] '
+body:
+  - type: textarea
+    id: steps
+    attributes:
+      label: خطوات إعادة المشكلة
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: المتوقع والفعلي
+    validations:
+      required: true
+  - type: input
+    id: environment
+    attributes:
+      label: البيئة والإصدار
+  - type: textarea
+    id: security
+    attributes:
+      label: الأثر أو البيانات المتأثرة
+      description: لا تُدرج كلمات مرور أو رموز وصول أو بيانات حساسة في البلاغ.

@@ -1,0 +1,72 @@
+name: Development Compose smoke
+on:
+  push:
+  pull_request:
+permissions:
+  contents: read
+jobs:
+  compose:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-python@v6
+        with:
+          python-version: '3.13'
+      - run: python -m pip install -r tools/requirements-contracts.txt
+      - name: Prepare disposable CI-only values
+        run: |
+          umask 077
+          printf '%s\n' \
+            'POSTGRES_PASSWORD=ci-only-disposable-password' \
+            'NEXORA_JWT_SECRET=ci-only-disposable-jwt-secret-1234567890' \
+            'NEXORA_ML_SERVICE_TOKEN=ci-only-disposable-ml-secret-1234567890' > .env
+          docker compose --env-file .env -f infra/compose.yaml config --quiet
+      - name: Migrate and bootstrap disposable database
+        env:
+          NEXORA_BOOTSTRAP_PASSWORD: ci-only-temporary-password-for-tests
+        run: |
+          docker compose --env-file .env -f infra/compose.yaml up -d postgres
+          docker compose --env-file .env -f infra/compose.yaml run --rm api migrate
+          docker compose --env-file .env -f infra/compose.yaml run --rm \
+            -e NEXORA_BOOTSTRAP_ORG_SLUG=smoke \
+            -e NEXORA_BOOTSTRAP_ORG_NAME=Smoke \
+            -e NEXORA_BOOTSTRAP_EMAIL=admin@example.invalid \
+            -e NEXORA_BOOTSTRAP_PASSWORD api bootstrap
+          docker compose --env-file .env -f infra/compose.yaml up -d api
+          for i in $(seq 1 30); do
+            if curl -fsS http://127.0.0.1:8080/health/ready >/dev/null; then echo "API ready on attempt $i"; break; fi
+            sleep 1
+          done
+          curl -fsS http://127.0.0.1:8080/health/ready >/dev/null
+      - name: Real HTTP contract smoke
+        env:
+          NEXORA_SMOKE_ALLOW_WRITES: '1'
+          NEXORA_SMOKE_BASE_URL: http://127.0.0.1:8080
+          NEXORA_SMOKE_ORG: smoke
+          NEXORA_SMOKE_EMAIL: admin@example.invalid
+          NEXORA_SMOKE_PASSWORD: ci-only-temporary-password-for-tests
+        run: python scripts/contract_smoke.py
+      - name: Start ML preview (not a model or detector)
+        run: |
+          docker compose --env-file .env -f infra/compose.yaml --profile ml-preview up -d ml-preview
+          docker compose --env-file .env -f infra/compose.yaml exec -T ml-preview python - <<'PY'
+          import json, os, time, urllib.request
+          url = 'http://127.0.0.1:9000'
+          for attempt in range(30):
+              try:
+                  ready = json.load(urllib.request.urlopen(url + '/health/ready'))
+                  break
+              except OSError:
+                  if attempt == 29: raise
+                  time.sleep(1)
+          assert ready['model_status'] == 'not_implemented'
+          body = json.dumps({'rule_score': 0, 'asset_criticality': 'critical', 'frequency_score': 1}).encode()
+          headers = {'Content-Type': 'application/json', 'Authorization': 'Bearer ' + os.environ['NEXORA_ML_SERVICE_TOKEN']}
+          result = json.load(urllib.request.urlopen(urllib.request.Request(url + '/internal/v1/risk-preview', data=body, headers=headers)))
+          assert result['operational'] is False and result['risk_score'] == 0.2
+          PY
+      - name: Remove containers and disposable data
+        if: always()
+        run: |
+          if [ -f .env ]; then docker compose --env-file .env -f infra/compose.yaml --profile ml-preview down -v --remove-orphans; fi
+          rm -f .env

@@ -1,0 +1,2 @@
+{"timestamp":"2026-11-05T10:11:12.123456Z","event_type":"alert","src_ip":"192.0.2.10","dest_ip":"198.51.100.20","alert":{"signature":"SYNTHETIC TEST signature only","severity":2}}
+{"timestamp":"2026-11-05T10:12:13Z","event_type":"dns","src_ip":"192.0.2.10","dest_ip":"203.0.113.53","dns":{"rrname":"example.invalid"}}

@@ -1,0 +1,25 @@
+# Secrets and local databases
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+*.p12
+*.pfx
+*.db
+*.sqlite*
+pgdata/
+# Build and dependency artifacts
+node_modules/
+dist/
+build/
+coverage/
+.venv/
+__pycache__/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+*.py[cod]
+*.log
+.nexora-api
+.DS_Store

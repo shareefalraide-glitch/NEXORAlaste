@@ -1,0 +1,51 @@
+# DEVELOPMENT ONLY. Ports bind to loopback; TLS, least-privilege DB roles,
+# audit separation and hardened secrets are mandatory before any deployment.
+services:
+  postgres:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_DB: nexora
+      POSTGRES_USER: nexora
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?Set POSTGRES_PASSWORD in the root .env}
+    ports:
+      - "127.0.0.1:5433:5432"
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U nexora -d nexora"]
+      interval: 3s
+      timeout: 3s
+      retries: 20
+    restart: unless-stopped
+  api:
+    build:
+      context: ../services/api
+    environment:
+      NEXORA_ENV: development
+      NEXORA_LISTEN_ADDR: 0.0.0.0:8080
+      DATABASE_URL: postgres://nexora:${POSTGRES_PASSWORD}@postgres:5432/nexora?sslmode=disable
+      NEXORA_JWT_SECRET: ${NEXORA_JWT_SECRET:?Set NEXORA_JWT_SECRET in the root .env}
+    ports:
+      - "127.0.0.1:8081:8080"
+    depends_on:
+      postgres:
+        condition: service_healthy
+    security_opt:
+      - no-new-privileges=true
+    cap_drop: ["ALL"]
+    read_only: true
+    restart: unless-stopped
+  ml-preview:
+    profiles: ["ml-preview"]
+    build:
+      context: ../services/ml
+    environment:
+      NEXORA_ML_SERVICE_TOKEN: ${NEXORA_ML_SERVICE_TOKEN:?Set NEXORA_ML_SERVICE_TOKEN in the root .env}
+    # No published host port. This preview is intentionally not wired to L4.
+    security_opt:
+      - no-new-privileges=true
+    cap_drop: ["ALL"]
+    read_only: true
+    restart: unless-stopped
+volumes:
+  postgres-data:

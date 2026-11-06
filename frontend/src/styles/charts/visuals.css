@@ -1,0 +1,845 @@
+/* Visual language: meaningful mock-data graphics, restrained motion, both themes. */
+@keyframes nx-page-in {
+  from {
+    opacity: 0;
+    transform: translateY(5px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+@keyframes nx-model-orbit {
+  to {
+    transform: rotate(360deg);
+  }
+}
+.content-area {
+  animation: nx-page-in 0.28s ease both;
+}
+.panel {
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease;
+}
+.panel:hover {
+  box-shadow: 0 8px 28px rgba(0, 0, 0, 0.14);
+}
+html[data-theme='light'] .panel:hover {
+  box-shadow: 0 8px 24px rgba(25, 50, 80, 0.09);
+}
+.stat-card {
+  position: relative;
+  overflow: hidden;
+  transition:
+    transform 0.2s ease,
+    border-color 0.2s ease,
+    box-shadow 0.2s ease;
+}
+.stat-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  right: 0;
+  left: 0;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, var(--nx-blue), var(--nx-brand), transparent);
+  opacity: 0.35;
+  transform: scaleX(0.55);
+  transition:
+    opacity 0.2s,
+    transform 0.25s;
+}
+.stat-card:hover::before,
+.stat-card:focus-visible::before {
+  opacity: 0.9;
+  transform: scaleX(1);
+}
+.stat-card:not(:disabled):hover {
+  box-shadow: 0 8px 24px rgba(var(--nx-brand-rgb), 0.09);
+}
+/* Keep the banner separate from whichever overview section follows it,
+   including when the optional guide card has been dismissed. */
+.overview-hero {
+  margin-block-end: 15px;
+}
+.hero-visual {
+  pointer-events: none;
+}
+.hero-network-label span {
+  font-size: 10px;
+}
+.hero-network-label strong {
+  font-size: 11px;
+}
+html[data-theme='light'] .hero-network-label span {
+  color: #145d7c;
+  font-weight: 600;
+}
+html[data-theme='light'] .hero-network-label strong {
+  color: #075a70;
+}
+html[data-theme='light'] .hero-network-label i {
+  background: #08758f;
+}
+/* Reserve room for the illustration on narrow layouts instead of placing
+   its stronger lines behind the copy. */
+@media (max-width: 420px) {
+  .overview-hero .hero-copy {
+    max-width: calc(100% - 75px);
+  }
+}
+@media (min-width: 761px) and (max-width: 850px) {
+  .overview-hero .hero-copy {
+    max-width: calc(100% - 165px);
+  }
+}
+
+/* Activity uses separate scales for the line and the small alert histogram. */
+.viz-activity {
+  padding: 0 19px 15px;
+  min-width: 0;
+}
+.viz-chart-header {
+  display: flex;
+  gap: 14px;
+  align-items: center;
+  flex-wrap: wrap;
+  color: var(--nx-tx2);
+  font-size: 10px;
+  margin: 0 0 15px;
+}
+.viz-chart-header > span {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+}
+.viz-chart-header small {
+  font-size: 9px;
+  color: var(--nx-tx3-ink);
+}
+.viz-chart-header .viz-period {
+  margin-right: auto;
+  color: var(--nx-tx3-ink);
+  font-size: 9px;
+}
+.viz-dot {
+  display: inline-block;
+  flex: none;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--nx-brand);
+  vertical-align: middle;
+}
+.viz-dot.event {
+  background: var(--nx-chart-cyan);
+  box-shadow: 0 0 8px rgba(var(--nx-brand-rgb), 0.26);
+}
+.viz-dot.alert {
+  background: var(--nx-chart-purple);
+}
+.viz-dot.sev-0 {
+  background: var(--nx-chart-red);
+}
+.viz-dot.sev-1 {
+  background: var(--nx-chart-orange);
+}
+.viz-dot.sev-2 {
+  background: var(--nx-chart-yellow);
+}
+.viz-activity-layout {
+  display: grid;
+  grid-template-columns: 40px minmax(0, 1fr);
+  gap: 8px;
+  align-items: start;
+}
+.viz-y-axis {
+  height: 150px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  text-align: right;
+  color: var(--nx-tx3-ink);
+  font-size: 9px;
+  line-height: 1;
+  transform: translateY(-3px);
+  font-variant-numeric: tabular-nums;
+}
+.viz-plot-interactive {
+  min-width: 0;
+  border-radius: 5px;
+  outline: none;
+  touch-action: pan-y;
+  cursor: crosshair;
+}
+.viz-plot-interactive:focus-visible {
+  outline: 2px solid var(--nx-brand);
+  outline-offset: 5px;
+}
+.viz-main-plot {
+  height: 150px;
+  position: relative;
+}
+.viz-main-plot svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
+.viz-point {
+  fill: var(--nx-chart-cyan);
+  stroke: var(--nx-bg2);
+  stroke-width: 1.5;
+  transition: r 0.12s ease;
+}
+.viz-point.active {
+  stroke: var(--nx-chart-cyan);
+  stroke-width: 2;
+  fill: var(--nx-bg2);
+}
+.viz-crosshair {
+  stroke: var(--nx-chart-cyan);
+  stroke-width: 1;
+  stroke-dasharray: 3 4;
+  opacity: 0.55;
+  pointer-events: none;
+}
+.viz-tooltip {
+  position: absolute;
+  top: 5px;
+  z-index: 3;
+  transform: translateX(-50%);
+  width: 150px;
+  display: grid;
+  gap: 6px;
+  padding: 10px 11px;
+  background: var(--nx-bg1);
+  border: 1px solid var(--nx-line2);
+  border-radius: 8px;
+  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.2);
+  font-size: 10px;
+  color: var(--nx-tx2);
+  pointer-events: none;
+}
+.viz-tooltip.start {
+  transform: translateX(0);
+}
+.viz-tooltip.end {
+  transform: translateX(-100%);
+}
+.viz-tooltip-time {
+  font-size: 10px;
+  color: var(--nx-tx1);
+  font-weight: 700;
+  padding-bottom: 5px;
+  border-bottom: 1px solid var(--nx-line);
+}
+.viz-tooltip span {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+.viz-tooltip strong {
+  margin-right: auto;
+  color: var(--nx-tx1);
+  font-variant-numeric: tabular-nums;
+}
+.viz-alert-track {
+  height: 26px;
+  display: grid;
+  gap: 0;
+  margin-top: 8px;
+  border-bottom: 1px solid var(--nx-line2);
+}
+.viz-alert-track > div {
+  display: flex;
+  height: 100%;
+  align-items: flex-end;
+  justify-content: center;
+  border-radius: 3px 3px 0 0;
+}
+.viz-alert-track > div.active {
+  background: rgba(var(--nx-purple-rgb), 0.07);
+}
+.viz-alert-track span {
+  display: block;
+  width: 36%;
+  max-width: 18px;
+  min-width: 3px;
+  background: var(--nx-chart-purple);
+  opacity: 0.58;
+  border-radius: 3px 3px 0 0;
+  transition: opacity 0.15s;
+}
+.viz-alert-track > div.active span {
+  opacity: 1;
+}
+.viz-x-axis {
+  display: grid;
+  margin-top: 6px;
+  font-size: 9px;
+  color: var(--nx-tx3-ink);
+  font-variant-numeric: tabular-nums;
+}
+.viz-x-axis span {
+  text-align: center;
+  min-width: 0;
+  white-space: nowrap;
+}
+.viz-chart-caption {
+  display: flex;
+  justify-content: space-between;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-top: 13px;
+  padding-top: 10px;
+  border-top: 1px solid var(--nx-line);
+  font-size: 9px;
+  color: var(--nx-tx2);
+  line-height: 1.6;
+}
+.viz-chart-caption span:last-child {
+  color: var(--nx-tx3-ink);
+}
+
+/* Donut and its keyboard-operable legend. */
+.viz-donut-layout {
+  display: grid;
+  grid-template-columns: minmax(120px, 150px) minmax(115px, 1fr);
+  gap: 10px;
+  align-items: center;
+  padding: 9px 18px 20px;
+  min-height: 235px;
+}
+.viz-donut-wrap {
+  display: grid;
+  place-items: center;
+  min-width: 0;
+}
+.viz-donut {
+  position: relative;
+  width: min(100%, 142px);
+  aspect-ratio: 1;
+}
+.viz-donut svg {
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
+.viz-donut-segment {
+  transform: rotate(-90deg);
+  transform-origin: center;
+  transform-box: view-box;
+  transition:
+    stroke-width 0.18s,
+    opacity 0.18s;
+  cursor: pointer;
+}
+.viz-donut-segment.selected {
+  filter: drop-shadow(0 0 4px rgba(var(--nx-brand-rgb), 0.18));
+}
+.viz-donut-segment.dim {
+  opacity: 0.32;
+}
+.viz-donut-center {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+  line-height: 1.4;
+}
+.viz-donut-center strong {
+  font-size: 25px;
+  color: var(--nx-tx1);
+  font-variant-numeric: tabular-nums;
+}
+.viz-donut-center span {
+  font-size: 10px;
+  color: var(--nx-tx2);
+  white-space: nowrap;
+}
+.viz-donut-legend {
+  display: grid;
+  gap: 4px;
+  min-width: 0;
+}
+.viz-donut-legend button {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 5px;
+  min-width: 0;
+  width: 100%;
+  padding: 8px 7px;
+  border: 1px solid transparent;
+  border-radius: 7px;
+  background: transparent;
+  color: var(--nx-tx2);
+  text-align: right;
+  font-size: 10px;
+  transition:
+    background 0.16s,
+    border-color 0.16s;
+}
+.viz-donut-legend button > span {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  white-space: nowrap;
+}
+.viz-donut-legend button strong {
+  white-space: nowrap;
+  color: var(--nx-tx1);
+  font-size: 11px;
+}
+.viz-donut-legend button small {
+  font-size: 9px;
+  color: var(--nx-tx3-ink);
+  font-weight: 500;
+  margin-right: 4px;
+}
+.viz-donut-legend button:hover,
+.viz-donut-legend button.active {
+  background: var(--nx-bg3);
+  border-color: var(--nx-line2);
+}
+.viz-donut-legend button:focus-visible,
+.viz-summary-legend button:focus-visible {
+  outline: 2px solid var(--nx-brand);
+  outline-offset: 2px;
+}
+.viz-legend-note {
+  padding: 3px 7px 0;
+  font-size: 9px;
+  color: var(--nx-tx3-ink);
+}
+
+/* Data summaries use the same semantic vocabulary across pages. */
+.viz-summary,
+.viz-baseline:not(.compact),
+.viz-coverage-summary {
+  padding: 16px 18px;
+  margin: 0 0 14px;
+  background: var(--nx-bg2);
+  border: 1px solid var(--nx-line);
+  border-radius: 9px;
+  min-width: 0;
+}
+.viz-summary-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 12px;
+}
+.viz-summary-head > div {
+  display: grid;
+  gap: 3px;
+  min-width: 0;
+}
+.viz-summary-head strong {
+  font-size: 12px;
+  color: var(--nx-tx1);
+}
+.viz-summary-head small {
+  font-size: 10px;
+  color: var(--nx-tx2);
+  font-weight: 400;
+  line-height: 1.6;
+}
+.viz-summary-head > b {
+  white-space: nowrap;
+  color: var(--nx-tx1);
+  font-size: 15px;
+  font-variant-numeric: tabular-nums;
+}
+.viz-summary-head > b small {
+  font-size: 10px;
+  color: var(--nx-tx2);
+  font-weight: 400;
+}
+.viz-stack {
+  height: 9px;
+  width: 100%;
+  display: flex;
+  overflow: hidden;
+  background: var(--nx-bg4);
+  border-radius: 99px;
+}
+.viz-stack > span {
+  height: 100%;
+  min-width: 0;
+  transition: width 0.32s ease;
+}
+.viz-summary-legend {
+  display: flex;
+  gap: 9px 18px;
+  align-items: center;
+  flex-wrap: wrap;
+  margin-top: 12px;
+  color: var(--nx-tx2);
+  font-size: 10px;
+}
+.viz-summary-legend span,
+.viz-summary-legend button {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  white-space: nowrap;
+}
+.viz-summary-legend strong {
+  color: var(--nx-tx1);
+  font-size: 10px;
+}
+.viz-summary-legend.interactive {
+  gap: 4px 7px;
+  margin-top: 9px;
+}
+.viz-summary-legend button {
+  font-size: 10px;
+  color: var(--nx-tx2);
+  background: transparent;
+  padding: 6px 7px;
+  border: 1px solid transparent;
+  border-radius: 6px;
+  transition:
+    background 0.15s,
+    border-color 0.15s;
+}
+.viz-summary-legend button:hover,
+.viz-summary-legend button.active {
+  background: var(--nx-bg3);
+  border-color: var(--nx-line2);
+  color: var(--nx-tx1);
+}
+.viz-baseline.compact {
+  padding: 0 19px 14px;
+}
+.viz-baseline.compact .viz-summary-head {
+  margin-bottom: 8px;
+}
+.viz-baseline.compact .viz-summary-head strong {
+  font-size: 10px;
+}
+.viz-baseline.compact .viz-summary-head small {
+  font-size: 9px;
+}
+.viz-baseline.compact .viz-summary-head > b {
+  font-size: 12px;
+}
+.viz-baseline.compact .viz-stack {
+  height: 7px;
+}
+.viz-baseline.compact .viz-summary-legend {
+  margin-top: 8px;
+}
+.viz-coverage-summary {
+  margin-top: 0;
+}
+.viz-tactic-list {
+  display: grid;
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+  gap: 12px;
+  margin-top: 16px;
+}
+.viz-tactic-list > div {
+  min-width: 0;
+}
+.viz-tactic-list > div > span {
+  display: flex;
+  justify-content: space-between;
+  gap: 4px;
+  color: var(--nx-tx2);
+  font-size: 9px;
+  line-height: 1.5;
+  min-height: 28px;
+}
+.viz-tactic-list b {
+  font-size: 10px;
+  color: var(--nx-tx1);
+  white-space: nowrap;
+}
+.viz-tactic-track {
+  height: 4px;
+  background: var(--nx-bg4);
+  border-radius: 9px;
+  overflow: hidden;
+  direction: ltr;
+}
+.viz-tactic-track i {
+  display: block;
+  height: 100%;
+  background: var(--nx-brand);
+  border-radius: 9px;
+  transition: width 0.3s ease;
+}
+
+/* Weighted contributions, not the raw component values. */
+.viz-risk-total {
+  padding: 10px 11px;
+  background: rgba(var(--nx-bg2-rgb), 0.72);
+  border: 1px solid var(--nx-line2);
+  border-radius: 7px;
+  margin: 10px 0 13px;
+}
+.viz-risk-total > div:first-child {
+  display: flex;
+  gap: 7px;
+  align-items: center;
+  flex-wrap: wrap;
+  margin-bottom: 8px;
+}
+.viz-risk-total strong {
+  font-size: 10px;
+  color: var(--nx-tx1);
+}
+.viz-risk-total span,
+.viz-risk-total small {
+  font-size: 9px;
+  color: var(--nx-tx2);
+}
+.viz-risk-total b {
+  font-size: 10px;
+  color: var(--nx-tx1);
+  margin-right: auto;
+}
+.viz-risk-total small {
+  display: block;
+  line-height: 1.6;
+  margin-top: 6px;
+}
+.risk-component .viz-dot {
+  width: 6px;
+  height: 6px;
+  margin-left: 2px;
+}
+.progress span {
+  transition: width 0.32s ease;
+}
+
+/* A decorative, non-data neural motif for the model banner. */
+.model-orb {
+  position: relative;
+  flex: none;
+  isolation: isolate;
+}
+.model-orb .model-core {
+  position: relative;
+  z-index: 2;
+}
+.model-graphic {
+  position: absolute;
+  width: 158px;
+  height: 158px;
+  inset: 50% auto auto 50%;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+  z-index: 0;
+  opacity: 0.8;
+}
+.model-graphic svg {
+  width: 100%;
+  height: 100%;
+  animation: nx-model-orbit 38s linear infinite;
+}
+.model-ring {
+  fill: none;
+  stroke: var(--nx-blue);
+  stroke-opacity: 0.22;
+  stroke-width: 1;
+  stroke-dasharray: 3 6;
+}
+.model-ring.outer {
+  stroke-opacity: 0.14;
+  stroke-dasharray: 1 5;
+}
+.model-links {
+  fill: none;
+  stroke: var(--nx-brand);
+  stroke-opacity: 0.3;
+  stroke-width: 0.8;
+}
+.model-nodes {
+  fill: var(--nx-brand);
+  opacity: 0.75;
+}
+@media (max-width: 1100px) {
+  .viz-tactic-list {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+@media (max-width: 760px) {
+  .viz-activity {
+    padding-left: 15px;
+    padding-right: 15px;
+  }
+  .viz-chart-header {
+    gap: 6px 11px;
+    margin-bottom: 12px;
+  }
+  .viz-chart-header .viz-period {
+    width: 100%;
+    margin-right: 0;
+  }
+  .viz-donut-layout {
+    max-width: 470px;
+    margin: auto;
+    min-height: 0;
+    padding: 5px 15px 20px;
+  }
+  .viz-summary,
+  .viz-baseline:not(.compact),
+  .viz-coverage-summary {
+    padding: 14px 15px;
+  }
+  .viz-tactic-list {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .model-graphic {
+    width: 130px;
+    height: 130px;
+  }
+  .model-orb .model-graphic svg {
+    width: 100%;
+  }
+}
+@media (max-width: 400px) {
+  .viz-y-axis {
+    font-size: 8px;
+  }
+  .viz-activity-layout {
+    grid-template-columns: 31px minmax(0, 1fr);
+    gap: 6px;
+  }
+  .viz-main-plot,
+  .viz-y-axis {
+    height: 135px;
+  }
+  .viz-x-axis {
+    font-size: 8px;
+  }
+  .viz-donut-layout {
+    grid-template-columns: minmax(100px, 120px) minmax(110px, 1fr);
+    gap: 2px;
+  }
+  .viz-donut-center strong {
+    font-size: 21px;
+  }
+  .viz-donut-center span {
+    font-size: 9px;
+  }
+  .viz-summary-head {
+    align-items: flex-start;
+  }
+  .viz-summary-head > b {
+    font-size: 13px;
+  }
+  .viz-tooltip {
+    width: 132px;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+  .stat-card:not(:disabled):hover {
+    transform: none;
+  }
+}
+.viz-review-count {
+  margin-right: auto;
+  padding: 6px 7px;
+  color: var(--nx-tx2);
+}
+/* A report is shown as a readable paper preview in both application themes. */
+.report-preview {
+  color: #25364c;
+}
+.report-preview-top h3,
+.report-summary strong,
+.report-incident strong,
+.report-visual > strong {
+  color: #172433;
+}
+.report-preview-top p,
+.report-summary p,
+.report-incident p,
+.report-preview-foot {
+  color: #51637b;
+}
+.report-preview-top span,
+.report-kpis strong {
+  color: #1764ab;
+}
+.report-kpis > div {
+  border-color: #d8e0ec;
+}
+.report-kpis span {
+  color: #51637b;
+}
+.report-visual {
+  margin-top: 16px;
+  padding: 12px;
+  border: 1px solid #d8e0ec;
+  border-radius: 6px;
+}
+.report-visual > strong {
+  display: block;
+  font-size: 11px;
+  margin-bottom: 9px;
+}
+.report-visual .viz-stack {
+  background: #e3e9f2;
+  height: 8px;
+}
+.report-viz-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 9px;
+  color: #43556e;
+  font-size: 10px;
+}
+.report-viz-legend span {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+}
+.report-viz-legend b {
+  color: #172433;
+}
+.report-visual > small {
+  display: block;
+  color: #596b83;
+  font-size: 9px;
+  margin-top: 8px;
+}
+@media print {
+  .report-visual .viz-stack,
+  .report-visual .viz-stack > span,
+  .report-visual .viz-dot {
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+}
+@media print {
+  .app-shell {
+    background: #fff !important;
+    min-height: 0 !important;
+  }
+}
+
+@media (max-width: 420px) {
+  .hero-copy h2 {
+    font-size: clamp(17px, 5vw, 20px);
+  }
+}

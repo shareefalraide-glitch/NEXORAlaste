@@ -1,0 +1,48 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:nexora:normalized-event:1",
+  "title": "Normalized event v1 (bounded ECS-inspired subset)",
+  "description": "This is not a complete ECS implementation. Source and tenant are derived from the source token. No packet payload is accepted.",
+  "type": "object",
+  "properties": {
+    "source_sequence": {
+      "type": "string",
+      "maxLength": 128
+    },
+    "original_timestamp": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "asset_id": {
+      "type": "string",
+      "format": "uuid"
+    },
+    "category": {
+      "type": "string",
+      "maxLength": 100
+    },
+    "action": {
+      "type": "string",
+      "maxLength": 100
+    },
+    "source_ip": {
+      "type": "string",
+      "maxLength": 45
+    },
+    "destination_ip": {
+      "type": "string",
+      "maxLength": 45
+    },
+    "message": {
+      "type": "string",
+      "maxLength": 4096
+    }
+  },
+  "required": [
+    "source_sequence",
+    "original_timestamp",
+    "category",
+    "action"
+  ],
+  "additionalProperties": false
+}
